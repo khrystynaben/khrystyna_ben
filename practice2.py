@@ -10,7 +10,7 @@ def show_error(text):
     sys.exit()
 
 
-def try_check(x, type_x):
+def type_change(x, type_x):
     try:
         temp_var = type_x(x)
     except:
@@ -20,7 +20,7 @@ def try_check(x, type_x):
 
 def full_checking(x, type_check, positive=False):
     if type_check is int:
-        temp_var = try_check(x, int)
+        temp_var = type_change(x, int)
         if positive == True and temp_var < 0:
             show_error('must be positive')
         return temp_var
@@ -29,7 +29,7 @@ def full_checking(x, type_check, positive=False):
             show_error('incorrect option')
         return x
     elif type_check is float:
-         return try_check(x, float)
+         return type_change(x, float)
 
 
 def merge_sort(list_):
@@ -43,13 +43,13 @@ def merge_sort(list_):
     list_2 = merge_sort(list_[size//2:])
     i = j = 0
     merged = []
-    operations += 5
+    operations += 4
     while True:
         operations += 1
         if list_1[i] < list_2[j]:
             merged.append(list_1[i])
             i += 1
-            operations += 3
+            operations += 2
             if i == len(list_1):
                 merged.extend(list_2[j:])
                 operations += 1
@@ -57,7 +57,7 @@ def merge_sort(list_):
         else:
             merged.append(list_2[j])
             j += 1
-            operations += 3
+            operations += 2
             if j == len(list_2):
                 merged.extend(list_1[i:])
                 operations += 1
@@ -68,18 +68,32 @@ def merge_sort(list_):
     return list_
 
 
-def generation(n_):
-    a = input("a = ")
-    a = full_checking(a, float)
-    b = input("b = ")
-    b = full_checking(b, float)
+def input_and_check(text, type_check, positive=False):
+    temp_var = input(text)
+    temp_var = full_checking(temp_var, type_check, positive=False)
+    return temp_var
+
+
+def option(text, kk):
+    for i in range (1, kk+1):
+        print(f"Input {i} for",text[i])
+    input_option = input_and_check( "? ", [str(x) for x in range(1,kk+1)])
+    return input_option
+
+
+def generations_limits():
+    a = input_and_check("a = ", float)
+    b = input_and_check("b = ", float)
     if a >= b:
         print("a must be less then b")
         sys.exit()
-    print("Input 1 if you choose integer ")
-    print("Input 2 if you choose for float")
-    type_option = input('? ')
-    type_option = full_checking(type_option, ['1','2'])
+    return [a,b]
+
+
+def generation(n_):
+    arr_ab = generations_limits()
+    a, b = arr_ab[0], arr_ab[1]
+    type_option = option(['','choosing integer', 'choosing float'],2)
     if type_option == '1':
         array_ = [randint(a, b) for _ in range(n_)]
     else:
@@ -90,18 +104,14 @@ def generation(n_):
 def self_inputting():
     array_ = []
     for i in range(n):
-        element = input(f"Input element {i + 1}: ")
-        element = full_checking(element, float)
+        element = input_and_check(f"Input element {i + 1}: ", float)
         array_.append(element)
     return array_
 
 
-def inputting(n_):
-    print("Input 1 for creating list step by step")
-    print("Input 2 for generate list automatically")
-    input_option = input("? ")
-    input_option = full_checking(input_option, ['1', '2'])
-    if input_option == '1':
+def general_inputting(n_):
+    type_option = option(['','creating list step by step', 'generating list randomly'], 2)
+    if type_option == '1':
         array = self_inputting()
     else:
         array = generation(n_)
@@ -109,14 +119,12 @@ def inputting(n_):
 
 
 while True:
-    n = input("n = ")
-    n = full_checking(n, int, positive=True)
-    array = inputting(n)
+    n = input_and_check('n = ', int, positive=True)
+    array = general_inputting(n)
     print(f"Initial list: {array}")
     merge_sort(array)
     print(f"After sorting: {array}")
     print("Number of operations: ", operations)
-    do_next = input("1 - next list; 2 - exit\n? ")
-    do_next = full_checking(do_next, ['1', '2'])
+    do_next = input_and_check("1 - next list; 2 - exit\n? ", ['1', '2'])
     if do_next == '2':
         break
