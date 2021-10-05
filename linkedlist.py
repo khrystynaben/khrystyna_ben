@@ -1,19 +1,20 @@
 from random import randint
-from valid import check_int
-
-class Node:
-    def __init__(self, value):
-        self.value = value
-        self.next = None
-
-    def __str__(self):
-        return f"{self.value}"
+from valid import *
+from node import Node
 
 
 class LinkedList:
     def __init__(self):
         self.size = 0
         self.head = None
+    
+    def __str__(self):
+        node = self.head
+        s =''
+        while node is not None:
+            s += f"{node} "
+            node = node.next
+        return s
 
     def push_from_keyboard(self, size):
         elem = check_int(input(f'Input element 1: '))
@@ -36,16 +37,9 @@ class LinkedList:
             node.next = Node(elem)
             node = node.next
             self.size += 1
-        
-    def __str__(self):
-        node = self.head
-        s =''
-        while node is not None:
-            s += f"{node} "
-            node = node.next
-        return s
 
-    def append(self, value):
+
+    def put_into_tail(self, value):
         self.size += 1
         node = Node(value)
         if self.head is None:
@@ -56,12 +50,18 @@ class LinkedList:
             current_node = current_node.next
         current_node.next = node
 
+    def put_into_head(self, value):
+        node = Node(value)
+        node.next = self.head
+        self.head = node
+        self.size += 1
+
+
     def pop_from_head(self):
         value = self.head.value
         self.head = self.head.next
         self.size -= 1
         return value
-
 
     def pop_from_tail(self):
         current_node = self.head
@@ -73,15 +73,9 @@ class LinkedList:
         return value
 
 
-    def put_into_head(self, value):
-        node = Node(value)
-        node.next = self.head
-        self.head = node
-        self.size += 1
-
     def insert(self, k, value):
         if k > self.size - 1:
-            self.append(value)
+            self.put_into_tail(value)
         elif k == 0:
             self.put_into_head(value)
         else:
@@ -106,4 +100,9 @@ class LinkedList:
             node = current_node.next.next
             current_node.next = node
             self.size -= 1
-            return value    
+            return value
+
+    def left_shift(self, k):
+        for _ in range(k):
+            elem = self.pop(0)
+            self.insert(self.size, elem) 
