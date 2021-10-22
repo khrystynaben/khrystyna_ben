@@ -102,4 +102,4 @@ def validate_int(x):
     if isinstance(x, str):
         x = change_to_integer(x)
         return x
-    wrong(f'{x}')
+

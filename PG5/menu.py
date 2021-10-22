@@ -1,5 +1,4 @@
-from valid import *
-from pr import PaymentRequest
+
 
 def checking_for_menu(x, type_check, positive=False):
     if type_check is int and positive==True:
@@ -25,17 +24,13 @@ def menu_option(text, kk):
 
 
 
-def menu(cc):
 
-    option = menu_option(['','search','add','sort','delete','replace'],5)
 
     if option =='1':
         text = input('input what you want to search: ')
         cc.search(text)
     elif option=='2':
-        new_p_r = PaymentRequest()
-        #new_p_r = PaymentRequest(880000000000, 'aaaaaaaaaaaaa@gmail.com', 9999, 'uah', '2000-01-01', '2021-09-29', '89023894-90')
-        new_p_r.input()
+
         cc.insert(new_p_r)
         print(cc)
     elif option=='3':
@@ -49,4 +44,3 @@ def menu(cc):
     elif option=='5':
         edit_id = input_and_check('input id of element that you want to replace: ',int, positive=True)
         cc.edit(edit_id)
-        print(cc)

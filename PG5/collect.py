@@ -1,8 +1,6 @@
 import sys
 from os.path import exists
-from my_exceptions import ValidationError
-from pr import PaymentRequest
-from valid import *
+
 
 class Collection:
     def __init__(self, file_name):
@@ -65,7 +63,6 @@ class Collection:
                 self.payments.pop(i)
                 break
         self.change_file()
-    
 
     def insert(self,payment_):
         self.payments.append(payment_)
@@ -77,9 +74,7 @@ class Collection:
             found = False
             if str(self.payments[i].get_ID)== str(id_):
                 found = True
-                #new_p_r = PaymentRequest(777770000000, 'bbbbbbbbbb@gmail.com', 9999, 'uah', '2000-01-01', '2021-09-29', '89023894-90')
-                new_p_r = PaymentRequest()
-                new_p_r.input()
+
                 self.payments.pop(i)
                 self.payments.append(new_p_r)
                 break
@@ -93,8 +88,9 @@ class Collection:
         for item in self.payments[0].__dict__:
             ll.append(str(item))
         return ll
-        
+
 
     def append_by_inputting(self, p):
         p.input()
         self.payments.append(p)
+
