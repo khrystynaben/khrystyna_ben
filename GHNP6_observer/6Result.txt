@@ -1,0 +1,8 @@
+Event(Add, (old list: , new list: 1 2 2 2 1 2 , on/from position:0)
+Event(Add, (old list: 1 2 2 2 1 2 , new list: 1 2 2 2 3 6 7 1 2 1 2 , on/from position:4)
+Event(Remove, (old list: 1 2 2 2 3 6 7 1 2 1 2 , new list: 1 2 3 7 2 1 2 , from position:1, to:4 ))
+Event(Remove, (old list: 1 2 3 7 2 1 2 , new list: 1 3 7 2 1 2 , on/from position:1)
+Event(Change, (old list: 1 3 7 2 1 2 , new list: 7 2 1 2 1 3 ))
+Event(Add, (old list: , new list: 1 7 2 4 7 , on/from position:0)
+Event(Change, (old list: 1 7 2 4 7 , new list: 2 4 7 1 7 ))
+Event(Remove, (old list: 2 4 7 1 7 , new list: 2 4 1 7 , on/from position:2)
