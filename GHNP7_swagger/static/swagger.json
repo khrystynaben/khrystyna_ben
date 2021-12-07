@@ -1,0 +1,201 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "description": "...",
+        "version": "1.0.0",
+        "title": "Payment_Request",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "tags": [
+        {
+            "name": "Payment Request",
+            "description": "Example API for requesting and return payment requests"
+        }
+    ],
+    "paths": {
+        "/payments": {
+            "get": {
+                "tags": [
+                    "Payment Request"
+                ],
+                "summary": "Returns Payment Requests",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Payment_Request"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Payment Request"
+                ],
+                "summary": "Create a new Payment Request",
+                "description": "",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in":"body",
+                        "name": "body",
+                        "description" : "need to be added to database",
+                        "required":true,
+                        "schema": {
+                            "$ref": "#/definitions/Payment_Request"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Payment_Request"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed. Bad post data."
+                    }
+                }
+            }
+        },
+        "/payments/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "ID of the paym that we need",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "tags": [
+                    "Payment Request"
+                ],
+                "summary": "Get payment request with given ID",
+
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Payment_Request"
+                        }
+                    },
+                    "404": {
+                        "description": "Failed. Book request not found."
+                    }
+                }
+            },
+            "put": {
+                "summary": "edit a payment request by given ID",
+                "tags": [
+                    "Payment Request"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "description": "Payment Request for editing",
+                        "schema": {
+                            "$ref": "#/definitions/Payment_Request"
+                        }
+                    }
+                ],
+                
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Payment_Request"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed. Bad post data."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete Payment Request by ID",
+                "tags": [
+                    "Payment Request"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "payment request Id to delete",
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Payment_Request"
+                        }
+                    },
+                    "404": {
+                        "description": "Failed. Book Request not found."
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Payment_Request": {
+            "type": "object",
+            "properties": {
+                "ID": {
+                    "type": "string",
+                    "example": "24343432"
+                },
+                "payer_email": {
+                    "type": "string",
+                    "example": "olenka@gmail.com"
+                },
+                "amount": {
+                    "type": "string",
+                    "example": "8990"
+                },
+                "currency": {
+                    "type": "string",
+                    "example": "euro"
+                },
+                "payment_request_date": {
+                    "type": "string",
+                    "example": "2021-09-09"
+                },
+                "payment_due_to_date": {
+                    "type": "string",
+                    "example": "2021-10-09"
+                },
+                "transaction_id": {
+                    "type": "string",
+                    "example": "12345678-90"
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+
+                    }
+                }
+            }
+        
+    
