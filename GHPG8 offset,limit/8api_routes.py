@@ -30,7 +30,7 @@ def delete_request(given_id):
     list_elem = PaymentRequest.query
     elem = PaymentRequest.query.get(given_id)
     if elem not in list_elem:
-        return jsonify({"status": 404, "message": "payment is not found"})
+        return jsonify({"status": 404, "message": "payment is not found"}),404
     else:
         db.session.delete(elem)
         db.session.commit()
@@ -40,6 +40,8 @@ def delete_request(given_id):
 @app.route('/payments/', methods=['GET'])
 def get_all_with_sort_and_search():
     list_paym = PaymentRequest.query.all()
+    all_requests = PaymentRequest.query
+    count = all_requests.count()
     print(list_paym)
     if len(list_paym) > 0:
         if 'sort_by' in request.args and 'sort_type' in request.args:
@@ -68,9 +70,11 @@ def get_all_with_sort_and_search():
                 to_return = conrol_limits(to_return, request.args['offset'], request.args['limit'])
             else:
                 to_return = conrol_limits(to_return, 0, request.args['limit'])
-        return jsonify(to_return)
+        #{"number of elements": number_elem}
+        return jsonify(to_return, {"count": count})
+
     else:
-        return jsonify({"status": 404, "message": "payment is not found"})
+        return jsonify({"status": 404, "message": "payment is not found"}),404
 
 
 @app.route('/payments/<given_id>', methods=['GET'])
@@ -78,8 +82,8 @@ def get_one_request(given_id):
     list_elem = PaymentRequest.query
     elem = PaymentRequest.query.get(given_id)
     if elem not in list_elem:
-        return jsonify({"status": 404, "message": "payment is not found"})
-    return jsonify({"status": 200, "message": "Successfully found request"}, {"info":elem.toJson()}), 200
+        return jsonify({"status": 404, "message": "payment is not found"}),404
+    return jsonify(elem.toJson()), 200
 
 
 @app.route('/payments/<given_id>', methods=['PUT'])
@@ -87,7 +91,7 @@ def update_request(given_id):
     list_elem = PaymentRequest.query
     elem = PaymentRequest.query.get(given_id)
     if elem not in list_elem:
-        return jsonify({"status": 404, "message": "payment is not found"})
+        return jsonify({"status": 404, "message": "payment is not found"}),404
     else:
         dani = []
         for key in PaymentRequest.get_attributes():
@@ -95,7 +99,7 @@ def update_request(given_id):
         try:
             new_payment = PaymentRequest(*dani)
         except ValidationError as error:
-            return jsonify({"status": 400, "message": str(error)})
+            return jsonify({"status": 400, "message": str(error)}),400
         db.session.delete(elem)
         db.session.add(new_payment)
         db.session.commit()
@@ -106,7 +110,7 @@ def update_request(given_id):
 def add_request():
     for elem in PaymentRequest.query:
         if request.json["ID"] == elem.get_ID:
-            return jsonify({'status': 404, "message": "payment already exits"})
+            return jsonify({'status': 404, "message": "payment already exits"}),404
     dani = []
     for key in PaymentRequest.get_attributes():
         dani.append(request.json[key])
@@ -114,7 +118,7 @@ def add_request():
         new_payment = PaymentRequest(*dani)
         print(new_payment)
     except ValidationError as error:
-        return jsonify({"status": 400, "message": str(error)})
+        return jsonify({"status": 400, "message": str(error)}),400
 
     db.session.add(new_payment)
     db.session.commit()
